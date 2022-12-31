@@ -1,18 +1,19 @@
-
 import React, {useEffect, useState} from "react";
 import MoviesContainer from "../componenets/MoviesContainer";
 import {Movie} from "../model/Movie";
 import {createMovie, getMovies, updateMovie} from "../api/Api";
+import NavBar from "../componenets/NavBar";
 
-export default function HomePage(){
+export default function HomePage() {
     const [movies, setMovies] = useState<Movie[]>([])
+    const [searchTerm, setSearchTerm] = useState("");
     const [postMovie, setPostMovie] = useState(new Movie("", "", "", 0, false));
 
 
     useEffect(() => {
         const fetchMovies = async () => {
             const response = await getMovies()
-            setMovies(response);
+            setMovies(response)
         };
         fetchMovies();
 
@@ -24,10 +25,8 @@ export default function HomePage(){
         if (theMovie) {
             theMovie.favourite = !theMovie.favourite
             updateMovie(theMovie, theMovie.id)
-            console.log(movies)
         }
         setMovies([...movies])
-
         //      setMovies(movies.map(m => {
         //
         //          if(theMovie && m.id === theMovie.id){
@@ -36,8 +35,6 @@ export default function HomePage(){
         //          }
         //          return m;
         //      }))
-
-
     }
 
 
@@ -60,7 +57,16 @@ export default function HomePage(){
             {...postMovie, [name]: value} as Movie)
     }
 
-    return( <div>
-        <MoviesContainer movies={movies} onChange={onChange} onFavourite={onFavourite} handleSubmit={handleSubmit}/>
-    </div>)
+
+
+    let filteredMovies = movies.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()))
+
+
+
+
+    return (
+        <div>
+             <NavBar onSearch={(e)=> setSearchTerm(e.target.value)}/>
+             <MoviesContainer movies={filteredMovies} onChange={onChange} onFavourite={onFavourite} handleSubmit={handleSubmit}/>
+        </div>)
 }

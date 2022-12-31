@@ -17,10 +17,17 @@ return (
                 <p className="card-text">
                     {movie.year}</p>
                 <button type="button" className="btn btn-outline-info">Info</button>
-                <button type="button" className="btn btn-outline-info second-button-card"
-                        style={movie.favourite? {backgroundColor: "#99004d"}: {backgroundColor: "white"}}
-                        onClick={onFavourite}
-                >Favourite</button>
+
+
+
+            {
+                movie.favourite?<i className="fa-solid fa-heart  second-button-card"
+                                   onClick={onFavourite}></i>:
+
+                    <i className="fa-regular fa-heart second-button-card"
+                       onClick={onFavourite}></i>
+
+            }
 
             </div>
 
