@@ -4,17 +4,40 @@ body {
 }
 
 .card-container {
-   /*justify-content: space-evenly;*/
    margin-top: 1rem;
-
-
-
 }
 .card {
    margin-top: 2rem;
+   margin-left: 3rem;
 }
 
 
 .second-button-card {
    margin-left: 7.5rem;
+}
+h3{
+   display: inline-block;
+
+   padding-bottom: 0;
+}
+
+.no-data {
+   margin-top: 3rem;
+   margin-bottom: 3rem;
+   text-align: center;
+}
+.card card-container-details {
+   text-align: center;
+}
+
+.activeLinkClass {
+   background-color: #332e2e;
+}
+@media  (max-width: 794px) {
+.test{
+   justify-content: center;
+}
+   .card{
+      margin-left: 0;
+   }
 }

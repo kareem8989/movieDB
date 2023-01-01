@@ -8,9 +8,11 @@ export default function MovieCard({movie,onFavourite}:{
        onFavourite: () => void
    }
 ){
+
 return (
+
     <div key={movie.id} className="card" style={{width: "16rem"}}>
-        <Link to={"/test"}> <img src={movie.posterURL} className="card-img-top" alt="..."/>    </Link>
+        <Link to={"/details/"+movie.id}> <img src={movie.posterURL} className="card-img-top" />    </Link>
 
         <div className="card-body">
                 <h5 className="card-title">{movie.title}</h5>
@@ -21,17 +23,21 @@ return (
 
 
             {
-                movie.favourite?<i className="fa-solid fa-heart  second-button-card"
-                                   onClick={onFavourite}></i>:
+                movie.favourite? <h3><i className="fa-solid fa-heart  second-button-card"
+                                        onClick={onFavourite}></i></h3>:
 
-                    <i className="fa-regular fa-heart second-button-card"
-                       onClick={onFavourite}></i>
+                  <h3><i className="fa-regular fa-heart second-button-card"
+                         onClick={onFavourite}></i></h3>
 
             }
 
+
             </div>
 
+
     </div>
+
+
 )
 
 

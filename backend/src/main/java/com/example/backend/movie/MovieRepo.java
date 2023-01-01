@@ -26,7 +26,7 @@ public class MovieRepo{
 //    List<Movie> movies = new ArrayList<>();
 
     private static final  int LIMIT_MOVIES = 10;
-    private int countMovies = movies.size() + 5;
+    private int countMovies = movies.size() + 6;
 
 
     public List<Movie> getMovies(){

@@ -1,32 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import MoviesContainer from "../componenets/MoviesContainer";
 import {Movie} from "../model/Movie";
-import {createMovie, getMovies, updateMovie} from "../api/Api";
+import { updateMovie} from "../api/Api";
 import NavBar from "../componenets/NavBar";
+import AddForm from "../componenets/AddForm";
+import useMovies from "../hocks/useMovies";
+import {useParams} from "react-router-dom";
 
 export default function HomePage() {
-    const [movies, setMovies] = useState<Movie[]>([])
+    let {isFavouriteActive} = useParams()
+
+
+    console.log(isFavouriteActive)
+
+
+    const [movies, setMovies] = useMovies([])
     const [searchTerm, setSearchTerm] = useState("");
     const [postMovie, setPostMovie] = useState(new Movie("", "", "", 0, false));
 
 
-    useEffect(() => {
-        const fetchMovies = async () => {
-            const response = await getMovies()
-            setMovies(response)
-        };
-        fetchMovies();
-
-    }, []);
-
 
     function onFavourite(index: number): void {
-        let theMovie = movies.at(index)
-        if (theMovie) {
-            theMovie.favourite = !theMovie.favourite
-            updateMovie(theMovie, theMovie.id)
-        }
-        setMovies([...movies])
+            let theMovie = movies.at(index)
+            if (theMovie) {
+                theMovie.favourite = !theMovie.favourite
+                updateMovie(theMovie, theMovie.id)
+            }
+            setMovies([...movies])
+
         //      setMovies(movies.map(m => {
         //
         //          if(theMovie && m.id === theMovie.id){
@@ -42,8 +43,8 @@ export default function HomePage() {
         event.preventDefault()
         try {
             if (postMovie.title != "" && postMovie.posterURL != "" && postMovie.year != 0) {
+                postMovie.id = movies.length + 1 +"";
                 setMovies([...movies, postMovie])
-                createMovie(postMovie)
             }
         } catch (error) {
             console.error(error);
@@ -59,7 +60,14 @@ export default function HomePage() {
 
 
 
-    let filteredMovies = movies.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    let filteredMovies: Movie[] = movies.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+
+
+    if (isFavouriteActive === "active"){
+        filteredMovies = movies.filter((m) => m.favourite)
+
+    }
 
 
 
@@ -67,6 +75,15 @@ export default function HomePage() {
     return (
         <div>
              <NavBar onSearch={(e)=> setSearchTerm(e.target.value)}/>
-             <MoviesContainer movies={filteredMovies} onChange={onChange} onFavourite={onFavourite} handleSubmit={handleSubmit}/>
+
+            {filteredMovies.length > 0  ?
+
+                <MoviesContainer movies={filteredMovies}  onFavourite={onFavourite}/>
+                :
+            <h1 className={"no-data"}>No Data</h1>}
+
+
+
+            <AddForm handleSubmit={handleSubmit} onChange={onChange}/>
         </div>)
 }
