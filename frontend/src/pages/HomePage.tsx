@@ -9,22 +9,19 @@ import {useParams} from "react-router-dom";
 
 export default function HomePage() {
     let {isFavouriteActive} = useParams()
-
-
     console.log(isFavouriteActive)
 
-
-    const [movies, setMovies] = useMovies([])
     const [searchTerm, setSearchTerm] = useState("");
-    const [postMovie, setPostMovie] = useState(new Movie("", "", "", 0, false));
-
-
+    const [movies, setMovies] = useMovies([])
     let filteredMovies: Movie[] = movies.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
+    const [postMovie, setPostMovie] = useState(new Movie("", "", "", 0, false));
+
+    if (isFavouriteActive === "active") {
+        filteredMovies = filteredMovies.filter((m) => m.favourite)
+    }
 
     function onFavourite(index: number): void {
-
-
        if(isFavouriteActive == undefined) {
             let theMovie = movies.at(index)
             if (theMovie) {
@@ -57,7 +54,7 @@ export default function HomePage() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         try {
-            if (postMovie.title != "" && postMovie.posterURL != "" && postMovie.year != 0) {
+            if (postMovie.title !== "" && postMovie.posterURL !== "" && postMovie.year !== 0) {
                 postMovie.id = movies.length + 1 + "";
                 createMovie(postMovie)
                 setMovies([...movies, postMovie])
@@ -76,9 +73,7 @@ export default function HomePage() {
 
 
 
-    if (isFavouriteActive === "active") {
-        filteredMovies = filteredMovies.filter((m) => m.favourite)
-    }
+
     return (
         <div>
             <NavBar onSearch={(e) => setSearchTerm(e.target.value)}/>

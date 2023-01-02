@@ -1,8 +1,6 @@
 package com.example.backend.movie;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,9 +35,12 @@ public class MovieService {
         return repo.getMovies();
     }
 
-    public List<Movie> setMovies(List<Movie> theMovies ){
+    public void setMovies(List<Movie> theMovies ){
          repo.setMovies(theMovies);
-        return repo.getMovies();
+    }
+
+    public void setCountMovies(int counter){
+        repo.setCountMovies(counter);
     }
 
 }

@@ -12,28 +12,36 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class MovieControllerTest {
 
+    @Autowired
+    MovieService service;
+
+
 
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     void insert_movie_thenSuccessfullyInsertedMovie () throws Exception {
+        service.setMovies(new ArrayList<>());
+        service.setCountMovies(1);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/movies")
                 .contentType(MediaType.APPLICATION_JSON)
+
                 .content("""
                 
                     {
-                        "id": "14",
+                        "id": "",
                         "title": "xxx",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": true
                     }
                     """)
         ).andExpectAll(
@@ -42,27 +50,10 @@ class MovieControllerTest {
                 [
                     {
                         "id": "1",
-                        "title": "Johnny-Depp",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
-                    },
-                    {
-                        "id": "2",
-                        "title": "Home-Alone",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",
-                        "year": 111
-                    },
-                    {
-                        "id": "3",
-                        "title": "New-York",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",
-                        "year": 2022
-                    },
-                    {
-                        "id": "0",
                         "title": "xxx",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": true
                     }
                 ]
                 """,
@@ -73,25 +64,31 @@ class MovieControllerTest {
 
     @Test
     void update_whenMovieExists_thenSuccessfullyUpdateMovie() throws Exception {
+        service.setMovies(new ArrayList<>());
+        service.setCountMovies(1);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/api/movies")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
-                        "id": "0",
+                        "id": "1",
                         "title": "Movie",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": false
                     }
                 """)
         );
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/movies/0")
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/movies/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                     {
+                        "id": "1",
                         "title": "Movie updated",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 123
+                        "posterURL": "xxxx",
+                        "year": 123,
+                        "favourite": false
                     }
                 """)
         ).andExpectAll(
@@ -100,27 +97,10 @@ class MovieControllerTest {
                     [
                     {
                         "id": "1",
-                        "title": "Johnny-Depp",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
-                    },
-                    {
-                        "id": "2",
-                        "title": "Home-Alone",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",
-                        "year": 111
-                    },
-                    {
-                        "id": "3",
-                        "title": "New-York",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",
-                        "year": 2022
-                    },
-                    {
-                        "id": "0",
                         "title": "Movie updated",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 123
+                        "posterURL": "xxxx",
+                        "year": 123,
+                        "favourite": false
                     }
                 ]
                 """,
@@ -134,71 +114,66 @@ class MovieControllerTest {
 
     @Test
     void update_whenMovieDoesntExist_returnOldMoviesList () throws Exception {
+        service.setMovies(new ArrayList<>());
+
         mockMvc.perform(MockMvcRequestBuilders.put("/api/movies/77")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
                 {
                        
                         "title": "xxx",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
+                        "posterURL": "url",
                         "year": 2022
                 }
             """)
         ).andExpectAll(
                 MockMvcResultMatchers.status().isOk(),
                 MockMvcResultMatchers.content().json("""
-                [
-                    {
-                        "id": "1",
-                        "title": "Johnny-Depp",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
-                    },
-                    {
-                        "id": "2",
-                        "title": "Home-Alone",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",
-                        "year": 111
-                    },
-                    {
-                        "id": "3",
-                        "title": "New-York",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",
-                        "year": 2022
-                    }
-                ]
+                []
             """,
                         true
                 )
         );
     }
 
-
-
     @Test
-    void getAll_whenMovies_thenReturnThreeMovies() throws Exception {
+    void getAll_whenMovies_thenReturnTowMovies() throws Exception {
+
+        service.setMovies(new ArrayList<>());
+        service.setCountMovies(1);
+
+        for (int i = 0; i < 2; i++) {
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/movies")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("""
+                {
+                        "title": "Movie",
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": false
+                    }
+                """)
+            );
+        }
+
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/movies"))
                 .andExpectAll(
                         MockMvcResultMatchers.content().json("""
                      [
-                    {
+                   {
                         "id": "1",
-                        "title": "Johnny-Depp",
-                        "posterURL": "https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",
-                        "year": 2022
+                        "title": "Movie",
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": false
                     },
                     {
                         "id": "2",
-                        "title": "Home-Alone",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",
-                        "year": 111
-                    },
-                    {
-                        "id": "3",
-                        "title": "New-York",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",
-                        "year": 2022
+                        "title": "Movie",
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": false
                     }
                 ]
                 """)
@@ -216,24 +191,25 @@ class MovieControllerTest {
 
     @Test
     void deleteById() throws Exception {
+        service.setMovies(new ArrayList<>());
+        service.setCountMovies(1);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/movies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                {
+                        "title": "Movie",
+                        "posterURL": "zzz",
+                        "year": 2022,
+                        "favourite": false
+                    }
+                """)
+        );
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/api/movies/1")
         ).andExpect(MockMvcResultMatchers.status().isOk()).andExpectAll( MockMvcResultMatchers.content().json("""
-                      [
-                    {
-                        "id": "2",
-                        "title": "Home-Alone",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",
-                        "year": 111
-                    },
-                    {
-                        "id": "3",
-                        "title": "New-York",
-                        "posterURL": "https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",
-                        "year": 2022
-                    }
-                ]
+                      []
                 """));
 
 }

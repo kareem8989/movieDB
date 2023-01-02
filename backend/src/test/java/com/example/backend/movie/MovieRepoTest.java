@@ -12,13 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class MovieRepoTest {
 
     MovieRepo rep = new MovieRepo();
+
     @Test
     void getMovies_getAllMovies() {
+        rep.setMovies(new ArrayList<>());
         // given
-        List<Movie> expected = new ArrayList<>(List.of(
-                new Movie("1","Johnny-Depp","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",2022),
-                new Movie("2","Home-Alone","https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",111),
-                new Movie("3","New-York","https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",2022)));
+        List<Movie> expected = new ArrayList<>(List.of());
         // when
         List<Movie> actual = rep.getMovies();
         // then
@@ -30,7 +29,7 @@ class MovieRepoTest {
     @Test
     void getMovies_emptyMoviesAray() {
         // given
-        List<Movie> expected = rep.setMovies(new ArrayList<Movie>());
+        List<Movie> expected = rep.setMovies(new ArrayList<>());
 
         // when
         List<Movie> actual = rep.getMovies();
@@ -41,15 +40,20 @@ class MovieRepoTest {
 
     @Test
     void getMovieByID_getOneMovie() {
+        rep.setMovies(new ArrayList<>(List.of(
+                new Movie("1", "Name", "url", 2022, false),
+                new Movie("2", "Name", "url", 2022, false)
+        )));
         // GIVEN
         String id = "1";
-        Movie axpected =  new Movie("1","Johnny-Depp","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",2022);
+        Movie axpected = new Movie("1", "Name", "url", 2022, false);
 
         // WHEN
         Movie actual = rep.getMovieByID(id);
+
         // THEN
 
-        assertEquals(axpected,actual);
+        assertEquals(axpected, actual);
     }
 
     @Test
@@ -61,56 +65,69 @@ class MovieRepoTest {
         Movie actual = rep.getMovieByID(id);
         // THEN
 
-        assertEquals(null,actual);
+        assertNull(actual);
     }
 
     @Test
     void insertMovie() {
+        rep.setCountMovies(3);
+        rep.setMovies(new ArrayList<>(List.of(
+                new Movie("1", "Name", "url", 2022, false),
+                new Movie("2", "Name", "url", 2022, false)
+        )));
         // Given
-        Movie addedMovie =  new Movie("8","xxx","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",777);
+        Movie addedMovie = new Movie("3", "xxx", "xxx", 777, false);
 
         List<Movie> expected = new ArrayList<>(List.of(
-                new Movie("1","Johnny-Depp","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",2022),
-                new Movie("2","Home-Alone","https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",111),
-                new Movie("3","New-York","https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",2022),
-                new Movie("0","xxx","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",777)));
+                new Movie("1", "Name", "url", 2022, false),
+                new Movie("2", "Name", "url", 2022, false),
+                new Movie("3", "xxx", "xxx", 777, false)
+        ));
 
         // When
-         List<Movie> actual = rep.insertMovie(addedMovie);
+        List<Movie> actual = rep.insertMovie(addedMovie);
 
-         // Then
-        assertEquals(expected,actual);
+        // Then
+        assertEquals(expected, actual);
 
     }
 
 
     @Test
     void deleteMovie() {
+        rep.setMovies(new ArrayList<>(List.of(
+                new Movie("1", "Name", "url", 2022, false),
+                new Movie("2", "Name", "url", 2022, false)
+        )));
         // Given
-        String id = "3";
+        String id = "2";
 
         List<Movie> expected = new ArrayList<>(List.of(
-                new Movie("1","Johnny-Depp","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",2022),
-                new Movie("2","Home-Alone","https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",111)
-                ));
+                new Movie("1", "Name", "url", 2022, false)
+        ));
 
         // When
         List<Movie> actual = rep.deleteMovie(id);
 
         // Then
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
 
     }
 
     @Test
     void updateMovie() {
+        rep.setCountMovies(1);
+        rep.setMovies(new ArrayList<>(List.of(
+                new Movie("1", "Name", "url", 2022, false)
+        )));
         // Given
-        Movie theUpdated =new Movie("1","xx","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",2022);
 
-                List<Movie> expected = new ArrayList<>(List.of(
-                        new Movie("1","xx","https://images5.fanpop.com/image/photos/24700000/Johnny-Depp-movie-posters-movie-posters-24790093-800-1185.jpg",2022),
-                        new Movie("2","Home-Alone","https://images6.fanpop.com/image/photos/43700000/Home-Alone-3-1997-movie-posters-43713609-507-755.jpg",111),
-                        new Movie("3","New-York","https://images6.fanpop.com/image/photos/43700000/Home-Alone-2-Lost-in-New-York-1992-movie-posters-43713592-510-755.jpg",2022)));
+        Movie theUpdated = new Movie("1", "xx", "xxx", 2022, false);
+
+
+        List<Movie> expected = new ArrayList<>(List.of(
+                new Movie("1", "xx", "xxx", 2022, false)
+        ));
 
 
         // When
@@ -118,6 +135,6 @@ class MovieRepoTest {
         List<Movie> actual = rep.updateMovie(theUpdated.getId(), theUpdated);
 
         // Then
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 }

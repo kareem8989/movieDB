@@ -11,7 +11,7 @@ export default function MovieCard({movie,onFavourite}:{
 
 return (
 
-    <div key={movie.id} className="card" style={{width: "16rem"}}>
+    <div key={movie.id} className="card" style={{width: "14rem"}}>
         <Link to={"/details/"+movie.id} onMouseOver={()=> {
             return 'SHOW DETAILS'
         }}> <img src={movie.posterURL} className="card-img-top"  alt={'MOVIE POSTER'}/>    </Link>
@@ -21,7 +21,6 @@ return (
                 <p className="card-text">
                     {movie.year}</p>
                 <button type="button" className="btn btn-outline-info">Info</button>
-
 
 
             {

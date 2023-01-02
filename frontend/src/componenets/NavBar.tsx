@@ -27,7 +27,7 @@ export default function NavBar({onSearch}: {
         <>
             <nav className="navbar navbar-expand-lg bg-dark-subtle sticky-sm-top">
                 <div className="container">
-                    <a className="navbar-brand" href="#"><h1>MovieDB</h1></a>
+                    <a className="navbar-brand" href="/"><h1>MovieDB</h1></a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
