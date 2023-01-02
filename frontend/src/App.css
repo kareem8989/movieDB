@@ -26,12 +26,11 @@ h3{
    margin-bottom: 3rem;
    text-align: center;
 }
-.card card-container-details {
-   text-align: center;
-}
+
 
 .activeLinkClass {
-   background-color: #332e2e;
+   background-color: lightslategray;
+   color: cornsilk;
 }
 @media  (max-width: 794px) {
 .test{

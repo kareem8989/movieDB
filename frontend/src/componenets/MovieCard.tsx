@@ -12,7 +12,9 @@ export default function MovieCard({movie,onFavourite}:{
 return (
 
     <div key={movie.id} className="card" style={{width: "16rem"}}>
-        <Link to={"/details/"+movie.id}> <img src={movie.posterURL} className="card-img-top" />    </Link>
+        <Link to={"/details/"+movie.id} onMouseOver={()=> {
+            return 'SHOW DETAILS'
+        }}> <img src={movie.posterURL} className="card-img-top"  alt={'MOVIE POSTER'}/>    </Link>
 
         <div className="card-body">
                 <h5 className="card-title">{movie.title}</h5>
