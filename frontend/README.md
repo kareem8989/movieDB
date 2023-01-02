@@ -1,3 +1,42 @@
+# Java fullstack development bootcamp 
+
+## MovieDB
+- SPRINGBOOT
+- REACT
+- BOOTSTRAP 
+
+
+
+## Features
+
+- [x] Show All Movies
+- [x] No Data if no Movies exist
+- [x] Add new Movie
+
+## Bonus Advance
+- [x] Delete movie 
+- [x] Search on movie by title
+
+## Bonus Expert
+- [x] Show movie details
+
+## Bonus HardCore
+- [x] Add Favourite
+- [x] Show Favourites
+- [x] Show No Favourites if no Favourites exist
+
+
+
+## The solution
+
+![Alt text](movieDB.png)
+
+## The task
+
+![Alt text](img.png)
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -44,3 +83,8 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+
+
+
