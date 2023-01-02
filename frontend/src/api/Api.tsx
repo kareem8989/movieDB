@@ -23,6 +23,6 @@ export const updateMovie = async (movie: Movie,id: string): Promise<Movie> => {
     return response.data;
 };
 
-export const deleteMovie = async (id: number): Promise<void> => {
+export const deleteMovie = async (id: string): Promise<void> => {
     await axios.delete(`/api/movies/${id}`);
 };

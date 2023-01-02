@@ -28,8 +28,11 @@ h3{
 
 
 .activeLinkClass {
-   background-color: lightslategray;
+   background-color: #e5afaf;
    color: cornsilk;
+}
+.delete_button {
+   background-color: #e3cbcb;
 }
 @media  (max-width: 794px) {
 .test{

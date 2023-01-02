@@ -2,10 +2,11 @@ import {Movie} from "../model/Movie";
 import React from "react";
 import {Link} from "react-router-dom";
 
-export default function MovieCard({movie,onFavourite}:{
+export default function MovieCard({movie,onFavourite,onDelete}:{
 
        movie: Movie
        onFavourite: () => void
+       onDelete: () => void
    }
 ){
 
@@ -20,7 +21,7 @@ return (
                 <h5 className="card-title">{movie.title}</h5>
                 <p className="card-text">
                     {movie.year}</p>
-                <button type="button" className="btn btn-outline-info">Info</button>
+                <button type="button" onClick={onDelete} className="btn btn-delete  delete_button">Delete</button>
 
 
             {

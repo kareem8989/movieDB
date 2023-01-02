@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import MoviesContainer from "../componenets/MoviesContainer";
 import {Movie} from "../model/Movie";
-import {createMovie, updateMovie} from "../api/Api";
+import {createMovie, deleteMovie, updateMovie} from "../api/Api";
 import NavBar from "../componenets/NavBar";
 import AddForm from "../componenets/AddForm";
 import useMovies from "../hocks/useMovies";
@@ -71,6 +71,13 @@ export default function HomePage() {
             {...postMovie, [name]: value} as Movie)
     }
 
+    function handelDelete (id: string): void {
+        const theNewMovies = movies.filter(f => f.id !== id)
+        deleteMovie(id)
+        setMovies([...theNewMovies])
+
+    }
+
 
 
 
@@ -79,7 +86,7 @@ export default function HomePage() {
             <NavBar onSearch={(e) => setSearchTerm(e.target.value)}/>
             {filteredMovies.length > 0 ?
 
-                <MoviesContainer movies={filteredMovies} onFavourite={onFavourite}/>
+                <MoviesContainer movies={filteredMovies} onFavourite={onFavourite} onDelete={handelDelete}/>
                 :
                 <h1 className={"no-data"}> {isFavouriteActive? "NO FAVOURITE MOVIES": "NO DATA EXIST "} </h1>}
 
