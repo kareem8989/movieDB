@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import MoviesContainer from "../componenets/MoviesContainer";
 import {Movie} from "../model/Movie";
-import {updateMovie} from "../api/Api";
+import {createMovie, updateMovie} from "../api/Api";
 import NavBar from "../componenets/NavBar";
 import AddForm from "../componenets/AddForm";
 import useMovies from "../hocks/useMovies";
@@ -17,6 +17,7 @@ export default function HomePage() {
     const [movies, setMovies] = useMovies([])
     const [searchTerm, setSearchTerm] = useState("");
     const [postMovie, setPostMovie] = useState(new Movie("", "", "", 0, false));
+
 
     let filteredMovies: Movie[] = movies.filter((m) => m.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -58,6 +59,7 @@ export default function HomePage() {
         try {
             if (postMovie.title != "" && postMovie.posterURL != "" && postMovie.year != 0) {
                 postMovie.id = movies.length + 1 + "";
+                createMovie(postMovie)
                 setMovies([...movies, postMovie])
             }
         } catch (error) {
@@ -84,7 +86,7 @@ export default function HomePage() {
 
                 <MoviesContainer movies={filteredMovies} onFavourite={onFavourite}/>
                 :
-                <h1 className={"no-data"}>No Data</h1>}
+                <h1 className={"no-data"}> {isFavouriteActive? "NO FAVOURITE MOVIES": "NO DATA EXIST "} </h1>}
 
             <AddForm handleSubmit={handleSubmit} onChange={onChange}/>
         </div>)
