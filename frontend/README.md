@@ -32,7 +32,6 @@
 ![Alt text](movieDB.png)
 
 ## The task
-
 ![Alt text](img.png)
 
 

@@ -33,7 +33,6 @@ class MovieControllerTest {
         service.setCountMovies(1);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/movies")
                 .contentType(MediaType.APPLICATION_JSON)
-
                 .content("""
                 
                     {

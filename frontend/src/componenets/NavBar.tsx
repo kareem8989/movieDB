@@ -7,18 +7,14 @@ export default function NavBar({onSearch}: {
 
     const [isFavourite,setIsFavourite] = useState(false)
     const [path,setPath] = useState("active")
-    const [activeLikClass,setActivelinkClass] = useState("")
 
     const switchFavourite = (): void => {
         setIsFavourite(!isFavourite)
         if(isFavourite){
            setPath("active")
-           setActivelinkClass("")
         }else if (!isFavourite){
             setPath("")
-            setActivelinkClass("activeLinkClass")
         }
-        console.log(activeLikClass)
 
     }
 
@@ -36,7 +32,7 @@ export default function NavBar({onSearch}: {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className={activeLikClass + " nav-link " }  onClick={switchFavourite} to={`/${path}`}><strong>Favourite</strong></Link>
+                                <Link className={(isFavourite ? "activeLinkClass": "") + " nav-link " }  onClick={switchFavourite} to={`/${path}`}><strong>Favourite</strong></Link>
                             </li>
 
 
